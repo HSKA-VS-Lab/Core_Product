@@ -28,8 +28,8 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("Product[id=%d, name='%s', price=%e, categoryId=%f, details='%g']", id, name, price,
-                categoryId, details);
+        return String.format("Product[name='%s', price=%e, categoryId=%d, details='%s']", name, price, categoryId,
+                details);
     }
 
     public int getId() {
