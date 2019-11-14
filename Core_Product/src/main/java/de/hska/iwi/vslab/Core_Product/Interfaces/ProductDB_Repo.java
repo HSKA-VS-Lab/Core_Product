@@ -6,10 +6,16 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ProductDB_Repo extends CrudRepository<Product, Long> {
 
+    int add();
+
+    boolean delete();
+
+    boolean update();
+
     List<Product> findByName(String name);
 
-    List<Product> findAll(); // TODO: filtered by: String searchValue, double priceMinValue, double
-                             // priceMaxValue
-
     Product findById(int id);
+
+    List<Product> findAll(); // TODO: optional searchParams
+
 }
