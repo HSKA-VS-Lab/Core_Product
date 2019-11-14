@@ -1,6 +1,6 @@
 package de.hska.iwi.vslab.Core_Product;
 
-import de.hska.iwi.vslab.Core_Product.Interfaces.ProductDB_Repo;
+import de.hska.iwi.vslab.Core_Product.Interfaces.ProductRepository;
 import de.hska.iwi.vslab.Core_Product.Models.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ public class CoreProductApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(ProductDB_Repo repository) {
+	public CommandLineRunner demo(ProductRepository repository) {
 		return (args) -> {
 			// save a few Products
 			repository.save(new Product("Apfel", 1.0, 1, "süß und saftig"));
@@ -43,14 +43,6 @@ public class CoreProductApplication {
 			// fetch Product by name
 			log.info("Product found with findByName('Karotte'):");
 			log.info("--------------------------------------------");
-			repository.findByName("Karotte").forEach(obst -> {
-				log.info(obst.toString());
-			});
-			// for (Category category : repository.findByName("Obst")) {
-			// log.info(category.toString());
-			// }
-
-			// fetch all Products
 			log.info("Products found with findAll():");
 			log.info("--------------------------------------------");
 			repository.findAll().forEach(cat -> {
