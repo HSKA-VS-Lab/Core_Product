@@ -22,38 +22,10 @@ public class ProductController {
 
 
     @GetMapping("/product")
-    public List getAllProduct() {
+    public List<Product> getAllProduct() {
         log.info("getAllProducts() was called");
         return productService.getAllProducts();
     }
-/*
-    @GetMapping(path = {"/product/searchValue={searchValue}&priceMinValue={priceMinValue}&priceMaxValue={priceMaxValue}",
-                        "/product/searchValue={searchValue}",
-                        "/product/searchValue={searchValue}&priceMinValue={priceMinValue}",
-                        "/product/searchValue={searchValue}&priceMaxValue={priceMaxValue}",
-                        "/product/priceMinValue={priceMinValue}&priceMaxValue={priceMaxValue}",
-                        "/product/priceMinValue={priceMinValue}",
-                        "/product/priceMaxValue={priceMaxValue}"})*/
-    /*@GetMapping(path = {"/product/searchValue={searchValue}&priceMinValue={priceMinValue}&priceMaxValue={priceMaxValue}"})
-    public List getAllProduct(@RequestParam(value = "searchValue", required = false) Optional<String> searchValue,
-                              @RequestParam(value = "priceMinValue", required = false) Optional<Long> priceMinValue,
-                              @RequestParam(value = "priceMaxValue", required = false) Optional<Long> priceMaxValue) {
-
-        Object[] args = new Object[3];
-        args[0] = searchValue;
-        args[1] = priceMinValue;
-        args[2] = priceMaxValue;
-
-        return productService.getAllProducts(args);
-    }*/
-
-    /*    @RequestMapping(value = {"/product/{searchValue=searchValue&priceMinValue=priceMinValue&priceMaxValue=priceMaxValue}",
-                             "/product/{searchValue=searchValue}",
-                             "/product/{searchValue=searchValue&priceMinValue=priceMinValue}",
-                             "/product/{searchValue=searchValue&priceMaxValue=priceMaxValue}",
-                             "/product/{priceMinValue=priceMinValue&priceMaxValue=priceMaxValue}",
-                             "/product/{priceMinValue=priceMinValue}",
-                             "/product/{priceMaxValue=priceMaxValue}"},*/
 
     @RequestMapping(value = {"/product/find"},
                              method = RequestMethod.GET)
@@ -61,19 +33,6 @@ public class ProductController {
             @RequestParam(value = "searchValue", required = false) Optional<String> searchValue,
             @RequestParam(value = "priceMinValue", required = false) Optional<String> priceMinValue,
             @RequestParam(value = "priceMaxValue", required = false) Optional<String> priceMaxValue) {
-
-
-        /*System.out.println(params);
-
-        String searchText = null;
-        String minValue = null;
-        String maxValue = null;
-        searchText = params.substring(params.indexOf("searchValue=") + "searchValue=".length(), params.indexOf("+"));
-        params = params.substring("searchValue=".length() + searchText.length() + 1);
-        minValue = params.substring(params.indexOf("priceMinValue=") + "priceMinValue=".length(), params.indexOf("+"));
-        params = params.substring("priceMinValue=".length() + minValue.length() + 1);
-        minValue = params.substring(params.indexOf("priceMaxValue=") + "priceMaxValue=".length());
-*/
 
     log.info("getProducts() was called");
         Object[] args = new Object[3];
@@ -107,14 +66,14 @@ public class ProductController {
     }
 
     @DeleteMapping("/product/{id}")
-    public long deleteProduct(@PathVariable int id){
+    public void deleteProduct(@PathVariable int id){
         log.info("deleteProduct("+id+") was called");
-        return productService.deleteProduct(id);
+        productService.deleteProduct(id);
     }
 
     @DeleteMapping("/product")
-    public long deleteProduct(){
+    public void deleteProduct(){
         log.info("deleteProduct() was called");
-        return productService.deleteAllProducts();
+        productService.deleteAllProducts();
     }
 }

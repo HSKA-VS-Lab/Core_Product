@@ -19,13 +19,13 @@ public class ProductService {
     @Autowired
     ProductRepository productRepo;
 
-    public List getAllProducts(){
-        List products = new ArrayList<>();
+    public List<Product> getAllProducts(){
+        List products = new ArrayList<Product>();
         productRepo.findAll().forEach(products::add);
         return products;
     }
 
-    public List getAllProducts(Object[] args){
+    public List<Product> getAllProducts(Object[] args){
 
         Optional<String> searchValue = (Optional<String>) args[0];
         Optional<String> priceMinValue = (Optional<String>) args[1];
@@ -115,18 +115,6 @@ public class ProductService {
 
     private boolean checkArgument(int pos,Object[] args, Optional<String> opt) {
         boolean check = true;
-        /*if (args[pos] != null)
-            check = true;
-        if (check) {
-            if (!opt.isPresent()) {
-                check = false;
-                if (check)
-                    if (opt.get() == "")
-                        check = false;
-            }
-
-
-        }*/
 
         if(args[pos] == null)
             check = false;
