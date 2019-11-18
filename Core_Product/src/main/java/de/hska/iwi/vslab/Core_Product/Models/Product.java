@@ -19,10 +19,10 @@ public class Product {
     protected Product() {
     }
 
-    public Product(String name, double price, int category, String details) {
+    public Product(String name, double price, int categoryId, String details) {
         this.name = name;
         this.price = price;
-        this.categoryId = category;
+        this.categoryId = categoryId;
         this.details = details;
     }
 
@@ -44,7 +44,7 @@ public class Product {
         return price;
     }
 
-    public int getCategoryIdFromProduct() {
+    public int getCategoryId() {
         return categoryId;
     }
 
