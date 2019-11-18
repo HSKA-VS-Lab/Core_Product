@@ -4,7 +4,9 @@ import de.hska.iwi.vslab.Core_Product.Models.Product;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface ProductRepository extends CrudRepository<Product, Long>{
 
     Product findByName(String name);
