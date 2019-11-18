@@ -45,16 +45,55 @@ public class ProductService {
         for(int pos = 0; pos< allProducts.size(); pos++){
             Product prod = allProducts.get(pos);
 
-            if (checkSearchValue){
+            if (checkSearchValue & checkPriceMinValue & checkPriceMaxValue){
+                String sv = searchValue.get();
+                double priceMin = Double.valueOf(priceMinValue.get());
+                double priceMax = Double.valueOf(priceMaxValue.get());
+                System.out.println("searchValue: " + sv);
+                System.out.println("priceMin: " + priceMin);
+                System.out.println("priceMax: " + priceMax);
+                if(prod.getName().toUpperCase().contains(sv.toUpperCase()))
+                    if (prod.getPrice() >= priceMin)
+                        if (prod.getPrice() <= priceMax)
+                            filteredProducts.add(prod);
+            }
+            if (checkSearchValue & !checkPriceMinValue & !checkPriceMaxValue){
                 String sv = searchValue.get();
                 System.out.println("searchValue: " + sv);
                 if(prod.getName().toUpperCase().contains(sv.toUpperCase()))
                     filteredProducts.add(prod);
             }
-
-            // Hier fehlen noch Kombinationen mit searchValue und min und max Preis einzeln bzw. zusammen
-
-            if (checkPriceMinValue & checkPriceMaxValue) {
+            if (checkSearchValue & checkPriceMinValue & !checkPriceMaxValue){
+                String sv = searchValue.get();
+                double priceMin = Double.valueOf(priceMinValue.get());
+                System.out.println("searchValue: " + sv);
+                System.out.println("priceMin: " + priceMin);
+                if(prod.getName().toUpperCase().contains(sv.toUpperCase()))
+                    if (prod.getPrice() >= priceMin)
+                        filteredProducts.add(prod);
+            }
+            if (checkSearchValue & !checkPriceMinValue & checkPriceMaxValue){
+                String sv = searchValue.get();
+                double priceMax = Double.valueOf(priceMaxValue.get());
+                System.out.println("searchValue: " + sv);
+                System.out.println("priceMax: " + priceMax);
+                if(prod.getName().toUpperCase().contains(sv.toUpperCase()))
+                    if (prod.getPrice() <= priceMax)
+                        filteredProducts.add(prod);
+            }
+            if (!checkSearchValue & checkPriceMinValue & !checkPriceMaxValue){
+                double priceMin = Double.valueOf(priceMinValue.get());
+                System.out.println("priceMin: " + priceMin);
+                if (prod.getPrice() >= priceMin)
+                    filteredProducts.add(prod);
+            }
+            if (!checkSearchValue & !checkPriceMinValue & checkPriceMaxValue) {
+                double priceMax = Double.valueOf(priceMaxValue.get());
+                System.out.println("priceMax: " + priceMax);
+                if (prod.getPrice() <= priceMax)
+                    filteredProducts.add(prod);
+            }
+            if (!checkSearchValue & checkPriceMinValue & checkPriceMaxValue) {
                 double priceMin = Double.valueOf(priceMinValue.get());
                 double priceMax = Double.valueOf(priceMinValue.get());
                 System.out.println("priceMin: " + priceMin);
@@ -62,20 +101,7 @@ public class ProductService {
                 if (prod.getPrice() >= priceMin & prod.getPrice() <= priceMax)
                     filteredProducts.add(prod);
             }
-            else {
-                if (checkPriceMinValue){
-                double priceMin = Double.valueOf(priceMinValue.get());
-                System.out.println("priceMin: " + priceMin);
-                if (prod.getPrice() >= priceMin)
-                    filteredProducts.add(prod);
-                }
-                if (checkPriceMaxValue) {
-                    double priceMax = Double.valueOf(priceMaxValue.get());
-                    System.out.println("priceMax: " + priceMax);
-                    if (prod.getPrice() <= priceMax)
-                        filteredProducts.add(prod);
-                }
-            }
+
 
         }
 
@@ -88,8 +114,8 @@ public class ProductService {
     }
 
     private boolean checkArgument(int pos,Object[] args, Optional<String> opt) {
-        boolean check = false;
-        if (args[pos] != null)
+        boolean check = true;
+        /*if (args[pos] != null)
             check = true;
         if (check) {
             if (!opt.isPresent()) {
@@ -100,7 +126,22 @@ public class ProductService {
             }
 
 
+        }*/
+
+        if(args[pos] == null)
+            check = false;
+        if(check == true){
+            if(!opt.isPresent()){
+                check = false;
+
+            }
+            if(check == true){
+                if(opt.get() == ""){
+                    check = false;
+                }
+            }
         }
+
         return check;
     }
 
