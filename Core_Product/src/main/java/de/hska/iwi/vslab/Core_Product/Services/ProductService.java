@@ -20,12 +20,12 @@ public class ProductService {
     ProductRepository productRepo;
 
     public List<Product> getAllProducts(){
-        List products = new ArrayList<Product>();
+        List<Product> products = new ArrayList<>();
         productRepo.findAll().forEach(products::add);
         return products;
     }
 
-    public List<Product> getAllProducts(Object[] args){
+    public Product[] getAllProducts(Object[] args){
 
         Optional<String> searchValue = (Optional<String>) args[0];
         Optional<String> priceMinValue = (Optional<String>) args[1];
@@ -109,8 +109,9 @@ public class ProductService {
             System.out.println("no filter set!");
             filteredProducts = getAllProducts();
         }
-
-        return filteredProducts;
+        
+        Product[] products = (Product[]) filteredProducts.toArray();
+        return products;
     }
 
     private boolean checkArgument(int pos,Object[] args, Optional<String> opt) {
