@@ -116,8 +116,9 @@ public class ProductService {
             System.out.println("no filter set!");
             return getAllProducts();
         }
-        
-        Product[] products = (Product[]) filteredProducts.toArray();
+
+        Product[] products = filteredProducts.toArray(new Product[0]);
+        //Product[] products = (Product[]) filteredProducts.toArray();
         return products;
     }
 
