@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,10 @@ public class ProductService {
     @Autowired
     ProductRepository productRepo;
 
-    public List<Product> getAllProducts(){
-        List<Product> products = new ArrayList<>();
-        productRepo.findAll().forEach(products::add);
+    public Product[] getAllProducts(){
+        List<Product> list = productRepo.findAll();
+        Product[] products = new Product[list.size()];
+        products = list.toArray(products);
         return products;
     }
 
@@ -41,7 +43,12 @@ public class ProductService {
 
 
         List<Product> filteredProducts = new ArrayList<Product>();
-        List<Product> allProducts = getAllProducts();
+        Product[] productsArray = getAllProducts();
+        List<Product> allProducts = new ArrayList<>();
+        for (Product p : productsArray) {
+            allProducts.add(p);
+        }
+      
         for(int pos = 0; pos< allProducts.size(); pos++){
             Product prod = allProducts.get(pos);
 
@@ -107,7 +114,7 @@ public class ProductService {
 
         if(!checkSearchValue & !checkPriceMinValue & !checkPriceMaxValue){
             System.out.println("no filter set!");
-            filteredProducts = getAllProducts();
+            return getAllProducts();
         }
         
         Product[] products = (Product[]) filteredProducts.toArray();
