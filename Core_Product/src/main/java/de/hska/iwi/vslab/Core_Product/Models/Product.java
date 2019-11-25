@@ -12,14 +12,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    private double price;
-    private int categoryId;
+    private Double price;
+    private Integer categoryId;
     private String details;
 
     protected Product() {
     }
 
-    public Product(String name, double price, int categoryId, String details) {
+    public Product(String name, Double price, Integer categoryId, String details) {
         this.name = name;
         this.price = price;
         this.categoryId = categoryId;
@@ -28,8 +28,8 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("Product[id='%d', name='%s', price=%e, categoryId=%d, details='%s']", id, name, price, categoryId,
-                details);
+        return String.format("Product[id=%d, name='%s', price=%e, categoryId=%d, details='%s']", id, name, price,
+                categoryId, details);
     }
 
     public int getId() {
@@ -40,11 +40,11 @@ public class Product {
         return name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public int getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 

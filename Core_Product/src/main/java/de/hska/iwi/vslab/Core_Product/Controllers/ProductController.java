@@ -20,21 +20,18 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-
     @GetMapping("/product")
     public Product[] getAllProduct() {
         log.info("getAllProducts() was called");
         return productService.getAllProducts();
     }
 
-    @RequestMapping(value = {"/product/find"},
-                             method = RequestMethod.GET)
-    public Product[] getProducts(
-            @RequestParam(value = "searchValue", required = false) Optional<String> searchValue,
+    @RequestMapping(value = { "/product/find" }, method = RequestMethod.GET)
+    public Product[] getProducts(@RequestParam(value = "searchValue", required = false) Optional<String> searchValue,
             @RequestParam(value = "priceMinValue", required = false) Optional<String> priceMinValue,
             @RequestParam(value = "priceMaxValue", required = false) Optional<String> priceMaxValue) {
 
-    log.info("getProducts() was called");
+        log.info("getProducts() was called");
         Object[] args = new Object[3];
         if (searchValue.isPresent())
             args[0] = searchValue;
@@ -49,30 +46,30 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public Product getProduct(@PathVariable int id) {
-        log.info("getProduct("+id+") was called");
+        log.info("getProduct(" + id + ") was called");
         return productService.getProduct(id);
     }
 
-    @PostMapping("/product")
+    @PostMapping(path = "/product", consumes = "application/json")
     public void addProduct(@RequestBody Product product) {
-        log.info("addProduct("+product.toString()+") was called");
+        log.info("addProduct(" + product.toString() + ") was called");
         productService.addProduct(product);
     }
 
-    @PutMapping("/product")
-    public void updateProduct(@RequestBody Product product) {
-        log.info("updateProduct("+product.toString()+") was called");
+    @PutMapping(path = "/product/{id}", consumes = "application/json")
+    public void updateProduct(@PathVariable int id, @RequestBody(required = true) Product product) {
+        log.info("updateProduct(" + product.toString() + ") was called");
         productService.updateProduct(product);
     }
 
     @DeleteMapping("/product/{id}")
-    public void deleteProduct(@PathVariable int id){
-        log.info("deleteProduct("+id+") was called");
+    public void deleteProduct(@PathVariable int id) {
+        log.info("deleteProduct(" + id + ") was called");
         productService.deleteProduct(id);
     }
 
     @DeleteMapping("/product")
-    public void deleteProduct(){
+    public void deleteProduct() {
         log.info("deleteProduct() was called");
         productService.deleteAllProducts();
     }
