@@ -30,17 +30,8 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    public Product[] fallbackGetProducts() {
-        Product product1 = new Product("productFallback1",1.0, 1, "dies das");
-        Product product2 = new Product("productFallback2",2.0, 1, "dies das");
-        Product[] productA = new Product[2];
-        productA[0] = product1;
-        productA[1] = product2;
-        return productA;
-    }
-
     @RequestMapping(value = { "/product/find" }, method = RequestMethod.GET)
-    @HystrixCommand(fallbackMethod = "fallbackGetProduct")
+    @HystrixCommand(fallbackMethod = "fallbackGetProducts")
     public Product[] getProducts(@RequestParam(value = "searchValue", required = false) Optional<String> searchValue,
             @RequestParam(value = "priceMinValue", required = false) Optional<String> priceMinValue,
             @RequestParam(value = "priceMaxValue", required = false) Optional<String> priceMaxValue) {
@@ -56,6 +47,15 @@ public class ProductController {
 
         return productService.getAllProducts(args);
 
+    }
+
+    public Product[] fallbackGetProducts() {
+        Product product1 = new Product("productFallback1",1.0, 1, "dies das");
+        Product product2 = new Product("productFallback2",2.0, 1, "dies das");
+        Product[] productA = new Product[2];
+        productA[0] = product1;
+        productA[1] = product2;
+        return productA;
     }
 
     @GetMapping("/product/{id}")
