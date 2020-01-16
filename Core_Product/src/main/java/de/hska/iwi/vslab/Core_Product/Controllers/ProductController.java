@@ -65,34 +65,38 @@ public class ProductController {
         return productService.getProduct(id);
     }
 
-    public Product fallbackGetProduct() {
+    public Product fallbackGetProduct(int id) {
         Product product = new Product("productFallback",1.0, 1, "dies das");
         return product;
     }
 
     @PostMapping(path = "/product", consumes = "application/json")
-    @HystrixCommand(fallbackMethod = "defaultFallback")
+    //@HystrixCommand(fallbackMethod = "fallbackAddProduct")
     public void addProduct(@RequestBody Product product) {
         log.info("addProduct(" + product.toString() + ") was called");
         productService.addProduct(product);
     }
 
+    public void fallbackAddProduct(Product product) {
+        System.out.printf("fallbackAddProduct");
+    }
+
     @PutMapping(path = "/product/{id}", consumes = "application/json")
-    @HystrixCommand(fallbackMethod = "defaultFallbackWithId")
+    //@HystrixCommand(fallbackMethod = "defaultFallbackWithId")
     public void updateProduct(@PathVariable int id, @RequestBody(required = true) Product product) {
         log.info("updateProduct(" + product.toString() + ") was called");
         productService.updateProduct(product);
     }
 
     @DeleteMapping("/product/{id}")
-    @HystrixCommand(fallbackMethod = "defaultFallbackWithId")
+    //@HystrixCommand(fallbackMethod = "defaultFallbackWithId")
     public void deleteProduct(@PathVariable int id) {
         log.info("deleteProduct(" + id + ") was called");
         productService.deleteProduct(id);
     }
 
     @DeleteMapping("/product")
-    @HystrixCommand(fallbackMethod = "defaultFallback")
+    //@HystrixCommand(fallbackMethod = "defaultFallback")
     public void deleteProduct() {
         log.info("deleteProduct() was called");
         productService.deleteAllProducts();
