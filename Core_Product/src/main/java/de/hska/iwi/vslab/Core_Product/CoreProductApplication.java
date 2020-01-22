@@ -26,8 +26,8 @@ public class CoreProductApplication {
 		return (args) -> {
 			// save a few Products
 			repository.save(new Product("Apfel", 1.0, 1, "süß und saftig"));
-			repository.save(new Product("Karotte", 1.1, 2, "sehr gesund"));
-			repository.save(new Product("Schokobons", 1.2, 3, "sind klein und rund..."));
+			repository.save(new Product("Karotte", 2.0, 2, "sehr gesund"));
+			repository.save(new Product("Schokobons", 3.0, 3, "sind klein und rund..."));
 
 			// fetch all Products
 			log.info("Products found with findAll():");
