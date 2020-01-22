@@ -24,19 +24,14 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/product")
-    @HystrixCommand(fallbackMethod = "fallbackGetProducts")
     public Product[] getAllProduct() {
-        log.info("getAllProducts() was called");
         return productService.getAllProducts();
     }
 
     @RequestMapping(value = { "/product/find" }, method = RequestMethod.GET)
-    @HystrixCommand(fallbackMethod = "fallbackGetProducts")
     public Product[] getProducts(@RequestParam(value = "searchValue", required = false) Optional<String> searchValue,
             @RequestParam(value = "priceMinValue", required = false) Optional<String> priceMinValue,
             @RequestParam(value = "priceMaxValue", required = false) Optional<String> priceMaxValue) {
-
-        log.info("getProducts() was called");
         Object[] args = new Object[3];
         if (searchValue.isPresent())
             args[0] = searchValue;
@@ -49,64 +44,28 @@ public class ProductController {
 
     }
 
-    public Product[] fallbackGetProducts() {
-        Product product1 = new Product("productFallback1",1.0, 1, "dies das");
-        Product product2 = new Product("productFallback2",2.0, 1, "dies das");
-        Product[] productA = new Product[2];
-        productA[0] = product1;
-        productA[1] = product2;
-        return productA;
-    }
-
     @GetMapping("/product/{id}")
-    @HystrixCommand(fallbackMethod = "fallbackGetProduct")
     public Product getProduct(@PathVariable int id) {
-        log.info("getProduct(" + id + ") was called");
         return productService.getProduct(id);
     }
 
-    public Product fallbackGetProduct(int id) {
-        Product product = new Product("productFallback",1.0, 1, "dies das");
-        return product;
-    }
-
     @PostMapping(path = "/product", consumes = "application/json")
-    //@HystrixCommand(fallbackMethod = "fallbackAddProduct")
     public void addProduct(@RequestBody Product product) {
-        log.info("addProduct(" + product.toString() + ") was called");
         productService.addProduct(product);
     }
 
-    public void fallbackAddProduct(Product product) {
-        System.out.printf("fallbackAddProduct");
-    }
-
     @PutMapping(path = "/product/{id}", consumes = "application/json")
-    //@HystrixCommand(fallbackMethod = "defaultFallbackWithId")
     public void updateProduct(@PathVariable int id, @RequestBody(required = true) Product product) {
-        log.info("updateProduct(" + product.toString() + ") was called");
         productService.updateProduct(product);
     }
 
     @DeleteMapping("/product/{id}")
-    //@HystrixCommand(fallbackMethod = "defaultFallbackWithId")
     public void deleteProduct(@PathVariable int id) {
-        log.info("deleteProduct(" + id + ") was called");
         productService.deleteProduct(id);
     }
 
     @DeleteMapping("/product")
-    //@HystrixCommand(fallbackMethod = "defaultFallback")
     public void deleteProduct() {
-        log.info("deleteProduct() was called");
         productService.deleteAllProducts();
-    }
-
-    public void defaultFallback(Throwable throwable) {
-        System.out.printf("DefaultFallback, exception=%s%n", throwable);
-    }
-
-    public void defaultFallbackWithId(int id, Throwable throwable) {
-        System.out.printf("DefaultFallbackWithId, id=%s, exception=%s%n", id, throwable);
     }
 }
